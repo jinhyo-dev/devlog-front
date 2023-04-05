@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import MDEditor from '@uiw/react-md-editor';
 import Header from "../components/Header";
 import LinesEllipsis from 'react-lines-ellipsis'
+import Hashtags from "../components/Hashtags";
 
 const Main = () => {
   useEffect(() => {
@@ -44,6 +45,7 @@ const Main = () => {
   return (
     <>
       <Header/>
+      <Hashtags/>
 
       <div className="box-container">
         {Object.values(dummyData).map((value: any, index: number) => (

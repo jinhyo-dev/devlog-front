@@ -21,7 +21,7 @@ export const lightTheme: CustomTheme = {
 };
 
 export const darkTheme: CustomTheme = {
-  backgroundColor: "#121212",
+  backgroundColor: "#1c1c27",
   boxColor: "hsla(0, 100%, 100%, 0.08)",
   fontColor: "#ececec",
   boxShadow: '0px 12px 17px 2px hsla(0, 0%, 0%, 0.14), 0px 5px 22px 4px hsla(0, 0%, 0%, 0.12), 0px 7px 8px -4px hsla(0, 0%, 0%, 0.2)',

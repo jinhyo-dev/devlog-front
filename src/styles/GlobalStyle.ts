@@ -143,9 +143,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         transform: translateY(-50%);
         color: #777;
       }
-
     }
-
   }
 
   @media (max-width: 549px) {
@@ -178,6 +176,21 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   @media (min-width: 1000px) and (max-width: 1399px) {
     .box {
       width: calc(33.33% - 20px);
+    }
+    
+    .box .text-container {
+      & .title {
+        font-size: 0.9rem;
+        height: 1.4rem;
+      }
+
+      & .info {
+        font-size: 0.75rem;
+      }
+
+      & .bottom-text div {
+        font-size: 0.6rem;
+      }
     }
   }
 
