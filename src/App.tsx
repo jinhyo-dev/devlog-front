@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom'
-import styled from 'styled-components';
 import Main from "./pages/Main";
 import React from "react";
 import Providers from "./Providers";

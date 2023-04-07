@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
+import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from 'react-icons/md'
 
 const Hashtags = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -11,7 +12,9 @@ const Hashtags = () => {
 
   return (
     <HashtagContainer>
-      <button style={{ float: 'left' }} onClick={() => handleScroll(-200)}>left</button>
+      <ArrowButton style={{ float: 'left', marginRight: '0.5rem' }} onClick={() => handleScroll(-200)}>
+        <MdOutlineKeyboardArrowLeft/>
+      </ArrowButton>
       <Hashtag ref={scrollRef}>
         <Button style={{ marginLeft: '0' }}>All (12)</Button>
         <Button>All (1242)</Button>
@@ -54,7 +57,9 @@ const Hashtags = () => {
         <Button>All (2)</Button>
         <Button>All (3)</Button>
       </Hashtag>
-      <button style={{ float: 'right' }} onClick={() => handleScroll(200)}>right</button>
+      <ArrowButton style={{ float: 'right' }} onClick={() => handleScroll(200)}>
+        <MdOutlineKeyboardArrowRight/>
+      </ArrowButton>
     </HashtagContainer>
   )
 }
@@ -66,9 +71,9 @@ const HashtagContainer = styled.div`
 `
 
 const Hashtag = styled.div`
-  width: 87%;
+  float: left;
+  width: calc(100% - 5rem);
   height: 2rem;
-  margin: auto;
   overflow: hidden;
   scroll-behavior: smooth;
   white-space: nowrap;
@@ -80,9 +85,32 @@ const Button = styled.button`
   padding-left: 1rem;
   padding-right: 1rem;
   margin-left: 1rem;
-  background-color: #ccc;
-  border: none;
+  background-color: ${({ theme }) => theme.boxColor};
+  border: ${({ theme }) => theme.hashtagBorder};
   border-radius: 5px;
+  color: ${({ theme }) => theme.hashtagColor};
+  transition: all 0.2s;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: ${({ theme }) => theme.hashtagHoverColor};
+    color: ${({ theme }) => theme.backgroundColor};
+  }
+`
+
+const ArrowButton = styled.button`
+  height: 100%;
+  width: 2rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  transition: 0.15s all;
+  cursor: pointer;
+  color: ${({ theme }) => theme.fontColor};
+
+  &:hover {
+    color: #1980ff;
+  }
 `
 
 export default Hashtags

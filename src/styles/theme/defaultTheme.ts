@@ -8,6 +8,9 @@ export interface CustomTheme extends DefaultTheme {
   boxShadowHover: string;
   boxHoverBackground: string;
   bottomBoxBorderColor: string;
+  hashtagColor: string;
+  hashtagBorder: string;
+  hashtagHoverColor: string;
 }
 
 export const lightTheme: CustomTheme = {
@@ -18,6 +21,9 @@ export const lightTheme: CustomTheme = {
   boxShadowHover: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px',
   boxHoverBackground: '#fff',
   bottomBoxBorderColor: '1px solid #f1f4f5',
+  hashtagColor: '#72bad2',
+  hashtagBorder: '1px solid #ADD8E6',
+  hashtagHoverColor: '#72bad2',
 };
 
 export const darkTheme: CustomTheme = {
@@ -28,4 +34,7 @@ export const darkTheme: CustomTheme = {
   boxShadowHover: '0px 12px 17px 2px hsla(0, 0%, 0%, 0.14), 0px 5px 22px 4px hsla(0, 0%, 0%, 0.12), 0px 7px 8px -4px hsla(0, 0%, 0%, 0.2)',
   boxHoverBackground: 'hsla(0, 100%, 100%, 0.12)',
   bottomBoxBorderColor: '1px solid #4d4e4f',
+  hashtagColor: '#aaa9bc',
+  hashtagBorder: '1px solid #434463',
+  hashtagHoverColor: '#aaa9bc',
 };

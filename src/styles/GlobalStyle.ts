@@ -159,16 +159,16 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
 
     .box .text-container {
       & .title {
-        font-size: 0.7rem;
-        height: 1rem;
+        font-size: 0.9rem;
+        height: 1.4rem;
       }
 
       & .info {
-        font-size: 0.5rem;
+        font-size: 0.7rem;
       }
 
       & .bottom-text div {
-        font-size: 0.4rem;
+        font-size: 0.6rem;
       }
     }
   }
