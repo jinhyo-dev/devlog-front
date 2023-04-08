@@ -46,6 +46,8 @@ const HeaderTag = styled.header`
   height: 5rem;
   font-family: 'D2Coding';
   font-size: 1.7rem;
+  background: ${({theme}) => theme.backgroundColor};
+  z-index: 99;
 `
 
 const Logo = styled.div`

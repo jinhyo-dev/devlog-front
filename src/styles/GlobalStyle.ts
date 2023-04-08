@@ -61,7 +61,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     margin: auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start; /* 수정: 왼쪽 정렬 */
     transition: all 0.5s;
   }
 

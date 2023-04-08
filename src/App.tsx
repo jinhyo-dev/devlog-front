@@ -8,6 +8,7 @@ const App = () => {
     <Providers>
       <Routes>
         <Route path={'/'} element={<Main/>}/>
+        <Route path={'/tag/:tag'} element={<Main/>}/>
       </Routes>
     </Providers>
   )

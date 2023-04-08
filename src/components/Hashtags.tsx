@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from 'react-icons/md'
+import { useNavigate, useParams } from "react-router-dom";
 
 const Hashtags = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate()
 
   const handleScroll = (scrollOffset: number) => {
     if (scrollRef.current)
@@ -16,46 +18,12 @@ const Hashtags = () => {
         <MdOutlineKeyboardArrowLeft/>
       </ArrowButton>
       <Hashtag ref={scrollRef}>
-        <Button style={{ marginLeft: '0' }}>All (12)</Button>
-        <Button>All (1242)</Button>
-        <Button>All</Button>
-        <Button>All (2)</Button>
-        <Button>All (3)</Button>
-        <Button>All (12)</Button>
-        <Button>All (1242)</Button>
-        <Button>All</Button>
-        <Button>All (2)</Button>
-        <Button>All (3)</Button>
-        <Button>All (12)</Button>
-        <Button>All (1242)</Button>
-        <Button>All</Button>
-        <Button>All (2)</Button>
-        <Button>All (3)</Button>
-        <Button>All (12)</Button>
-        <Button>All (1242)</Button>
-        <Button>All</Button>
-        <Button>All (2)</Button>
-        <Button>All (3)</Button>
-        <Button>All (12)</Button>
-        <Button>All (1242)</Button>
-        <Button>All</Button>
-        <Button>All (2)</Button>
-        <Button>All (3)</Button>
-        <Button>All (12)</Button>
-        <Button>All (1242)</Button>
-        <Button>All</Button>
-        <Button>All (2)</Button>
-        <Button>All (3)</Button>
-        <Button>All (12)</Button>
-        <Button>All (1242)</Button>
-        <Button>All</Button>
-        <Button>All (2)</Button>
-        <Button>All (3)</Button>
-        <Button>All (12)</Button>
-        <Button>All (1242)</Button>
-        <Button>All</Button>
-        <Button>All (2)</Button>
-        <Button>All (3)</Button>
+        <Button style={{ marginLeft: '0' }} onClick={() => navigate('/')}>All (12)</Button>
+        <Button onClick={() => navigate('/tag/go')}>Go (1)</Button>
+        <Button onClick={() => navigate('/tag/javascript')}>Javascript (1)</Button>
+        <Button onClick={() => navigate('/tag/typescript')}>Typescript (1)</Button>
+        <Button onClick={() => navigate('/tag/python')}>Python (1)</Button>
+        <Button onClick={() => navigate('/tag/react')}>React (1)</Button>
       </Hashtag>
       <ArrowButton style={{ float: 'right' }} onClick={() => handleScroll(200)}>
         <MdOutlineKeyboardArrowRight/>
