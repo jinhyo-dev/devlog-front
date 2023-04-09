@@ -42,6 +42,19 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     animation: ${fadeIn} 0.3s linear forwards;
     transition: background-color 0.3s linear;
   }
+  
+  .header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 5rem;
+    font-family: 'D2Coding';
+    font-size: 1.7rem;
+    background-color: ${({theme}) => theme.backgroundColor};
+    animation: ${fadeIn} 0.3s linear forwards;
+    transition: background-color 0.3s linear;
+    z-index: 1000;
+  }
 
   .toggle-container {
     float: right;

@@ -14,7 +14,7 @@ const Header = () => {
 
   return (
     <>
-      <HeaderTag>
+      <header className={'header'}>
         <Logo>
 
           <div>
@@ -34,21 +34,10 @@ const Header = () => {
             className={'toggle-dark-theme'}
           />
         </div>
-      </HeaderTag>
+      </header>
     </>
   )
 }
-
-const HeaderTag = styled.header`
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 5rem;
-  font-family: 'D2Coding';
-  font-size: 1.7rem;
-  background: ${({theme}) => theme.backgroundColor};
-  z-index: 99;
-`
 
 const Logo = styled.div`
   height: 5rem;
