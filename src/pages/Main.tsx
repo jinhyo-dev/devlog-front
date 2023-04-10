@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import LinesEllipsis from 'react-lines-ellipsis'
 import Hashtags from "../components/Hashtags";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 
 const Main = () => {
   const [dummyData, setDummyData] = useState<any>([])
@@ -27,7 +28,7 @@ const Main = () => {
         title: '컴퓨팅 사고와 개발 실력 늘리는 공부법',
         info: '이번 글은 개발 실력을 늘리기 위한 방법과 컴퓨터적으로 사고하는 법에 대한 개인적인 고찰에 관한 글입니다. 운동이라 생각하고 꾸준히 훈련하기, 요구사항을 데이터 관점으로 사고하기 라는 핵심철학을 바탕으로 어떻게 하면 개발실력을 효과적으로 키우고 컴퓨터적으로 생각하게 할 수 있을지에 대해 얘기하려고 합니다. 이 글이 개발 실력을 늘리고 나에게 맞는 공부법을 찾는 데 도움이 되기를 바랍니다.',
         date: '2023년 6월 8일',
-        hashtags: ['go'],
+        hashtags: ['go', 'back-end'],
         views: 43
       },
       {
@@ -114,6 +115,12 @@ const Main = () => {
                       />
                     </div>
 
+                    <HashtagContainer>
+                      {value.hashtags.map((tag: string, i: number) => (
+                        <><button style={{marginLeft: i === 0 ? '0' : ''}}>{tag}</button></>
+                      ))}
+                    </HashtagContainer>
+
                     <div className={'bottom-text'}>
                       <div>
                         <span>{value.date}</span>
@@ -134,5 +141,24 @@ const Main = () => {
     </>
   )
 }
+
+const HashtagContainer = styled.div`
+  width: 90%;
+  margin: 1vh auto 0;
+  height: 1.6rem;
+
+  & button {
+    margin-left: 0.5rem;
+    font-size: 0.6rem;
+    height: 100%;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    width: auto;
+    background-color: ${({ theme }) => theme.backgroundColor};
+    color: ${({ theme }) => theme.hashtagColor};
+    border: none;
+    border-radius: 2rem;
+  }
+`
 
 export default Main

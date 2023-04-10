@@ -79,9 +79,9 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   }
 
   .box {
-    height: 40vh;
-    min-height: 15rem;
-    max-height: 35rem;
+    height: 47vh;
+    min-height: 18rem;
+    max-height: 38rem;
     max-width: 35rem;
     min-width: 18rem;
     background-color: ${({theme}) => theme.boxColor};
