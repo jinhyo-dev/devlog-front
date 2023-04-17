@@ -15,6 +15,7 @@ const fadeIn = keyframes`
 `;
 
 export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
+  @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
   @font-face {
     font-family: 'D2Coding';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff') format('woff');
@@ -79,9 +80,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   }
 
   .box {
-    height: 47vh;
-    min-height: 18rem;
-    max-height: 38rem;
+    height: 24rem;
     max-width: 35rem;
     min-width: 18rem;
     background-color: ${({theme}) => theme.boxColor};
@@ -157,6 +156,17 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         color: #777;
       }
     }
+  }
+
+  .editor-container {
+    width: 90%;
+    height: 80vh;
+    margin: 1.5vh auto 0;
+  }
+
+  .wmde-markdown-var {
+    margin-top: 0.5rem;
+    height: 100%;
   }
 
   @media (max-width: 549px) {

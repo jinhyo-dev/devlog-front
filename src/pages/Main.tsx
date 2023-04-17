@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MDEditor from '@uiw/react-md-editor';
 import Header from "../components/Header";
 import LinesEllipsis from 'react-lines-ellipsis'
 import Hashtags from "../components/Hashtags";
@@ -17,8 +16,6 @@ const Main = () => {
   useEffect(() => {
     getDummyData()
   }, [tag])
-
-  const [value, setValue] = React.useState("# Hello world");
 
   const getDummyData = () => {
     setDummyData([])
@@ -135,9 +132,6 @@ const Main = () => {
           </>
         ))}
       </div>
-
-
-      {/*<div style={{ width: '80%', margin: 'auto' }}><MDEditor.Markdown source={value} style={{whiteSpace: 'pre-wrap'}}/></div>*/}
     </>
   )
 }
@@ -157,7 +151,7 @@ const HashtagContainer = styled.div`
     background-color: ${({ theme }) => theme.backgroundColor};
     color: ${({ theme }) => theme.hashtagColor};
     border: none;
-    border-radius: 2rem;
+    border-radius: 1rem;
   }
 `
 

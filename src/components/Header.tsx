@@ -3,8 +3,11 @@ import { BsTerminalFill } from 'react-icons/bs'
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import {useCookies} from 'react-cookie'
 import styled from "styled-components";
+import { FaUserLock } from 'react-icons/fa'
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate()
   const [cookies, setCookie] = useCookies()
 
   const toggleDarkMode = () => {
@@ -15,7 +18,7 @@ const Header = () => {
   return (
     <>
       <header className={'header'}>
-        <Logo>
+        <Logo onClick={() => navigate('/')}>
 
           <div>
             <BsTerminalFill className={'terminal-icon'}/>
@@ -34,6 +37,10 @@ const Header = () => {
             className={'toggle-dark-theme'}
           />
         </div>
+
+        <AdminLink onClick={() => navigate('/login')}>
+          <FaUserLock/>
+        </AdminLink>
       </header>
     </>
   )
@@ -48,13 +55,25 @@ const Logo = styled.div`
   
   & div {
     font-size: 1rem;
-    color: ${({ theme }) => theme.fontColor}
+    color: ${({ theme }) => theme.fontColor};
   }
 
   & div svg {
     font-size: 1.5rem;
     margin-top: 1.1rem;
   }
+`
+
+const AdminLink = styled.div`
+  font-size: 1.7rem;
+  margin-top: 1.75rem;
+  float: right;
+  height: auto;
+  width: 2rem;
+  color: ${({ theme }) => theme.fontColor};
+  text-align: center;
+  margin-right: 0.5rem;
+  cursor: pointer;
 `
 
 export default Header
