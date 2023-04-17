@@ -9,29 +9,54 @@ import styled from "styled-components";
 
 const ControlPosts = () => {
   const [cookies] = useCookies()
-  const [content, setContent] = useState("# Hello world");
-  const [hashtags, setHashtags] = useState<string[]>([])
+  const [content, setContent] = useState("<!-- title -->\n # 제목을 입력하세요");
+
+  const extractSpanValuesFromText = (): string[] => {
+    const regex = /<span.*?>(.*?)<\/span>/g;
+    const text = content
+    const matches = text.match(regex);
+    if (matches) {
+      return matches.map(match => {
+        const spanTag = match.match(/<span.*?>(.*?)<\/span>/);
+        if (spanTag && spanTag[1]) {
+          return spanTag[1];
+        } else {
+          return '';
+        }
+      });
+    } else {
+      return [];
+    }
+  }
+
+  const extractTitleFromText = (): string => {
+    const text = content.replace('# ', '')
+    const regex = /<!--\s*title\s*-->\s*(.*)/;
+    const match = text.match(regex);
+    if (match && match.length >= 2) {
+      return match[1].trim();
+    } else {
+      return '';
+    }
+  }
+
 
   const addPost = () => {
-    let tmp = {
+    let postContent = {
       "memberId": 1,
-      "title": "제목",
-      "content": "eoguddl",
-      "hashTag": [
-        "hashtag1",
-        "hashtag2",
-        "hashtag3"
-      ]
+      "title": extractTitleFromText(),
+      "content": content,
+      "hashTag": extractSpanValuesFromText()
     }
 
-    axios.post(`${import.meta.env.VITE_API_URL}/api/admin/post`, JSON.stringify(tmp), {
-      headers: {
-        'Authorization': `Bearer ${cookies.token}`,
-        'Content-Type': 'application/json'
-      },
-    })
-      .then((res: AxiosResponse) => console.log(res))
-      .catch((err) => console.log(err))
+    // axios.post(`${import.meta.env.VITE_API_URL}/api/admin/post`, JSON.stringify(tmp), {
+    //   headers: {
+    //     'Authorization': `Bearer ${cookies.token}`,
+    //     'Content-Type': 'application/json'
+    //   },
+    // })
+    //   .then((res: AxiosResponse) => console.log(res))
+    //   .catch((err) => console.log(err))
   }
 
   const handleImageUpload = async (file: File, onSuccess: (url: string) => void, onError: (error: any) => void) => {
@@ -69,6 +94,11 @@ const ControlPosts = () => {
     }
   };
 
+  const addHashtag = () => {
+    setContent('<span style="background-color: #252525; color: #96f2d7; width: auto; padding-left: 0.5rem;' +
+      ' padding-right: 0.5rem; border-radius: 5px;">#</span> ' + content)
+  }
+
   return (
     <>
       <Header/>
@@ -83,10 +113,14 @@ const ControlPosts = () => {
             <input type="file" id="fileInput" style={{display: 'none'}} onChange={handleFileSelect}/>
           </InputImage>
 
-          <AddHashTag>
+          <AddHashTag onClick={addHashtag}>
             <HiHashtag style={{fontSize: '1rem', marginBottom: '-0.15rem'}}/>
             <span style={{fontSize: '0.9rem', marginLeft: '0.3rem'}}>Add Hashtag</span>
           </AddHashTag>
+
+          <AddPost onClick={addPost}>
+            업로드
+          </AddPost>
         </TopContainer>
 
         <div data-color-mode={cookies.theme === 'dark' ? 'dark' : 'light'}>
@@ -97,7 +131,6 @@ const ControlPosts = () => {
             height={650}
           />
         </div>
-
       </div>
 
     </>
@@ -107,34 +140,43 @@ const ControlPosts = () => {
 const TopContainer = styled.div`
   width: 100%;
   font-family: 'Pretendard-Regular';
-  height: 1.3rem;
+  height: 2rem;
   color: ${({theme}) => theme.fontColor};
 `
 
 const InputImage = styled.div`
+  margin-top: 0.3rem;
   width: 6.5rem;
   float: left;
   text-align: center;
   transition: all 0.2s;
   cursor: pointer;
-  
-  &:hover {
-    background-color: ${({theme}) => theme.fontColor};
-    color: ${({theme}) => theme.backgroundColor};
-  }
 `
 
 const AddHashTag = styled.div`
+  margin-top: 0.3rem;
   text-align: center;
   width: 7rem;
   float: left;
   margin-left: 1rem;
   transition: all 0.2s;
   cursor: pointer;
+`
+
+const AddPost = styled.button`
+  float: right;
+  width: 6rem;
+  height: 2rem;
+  font-family: 'Pretendard-Regular';
+  background-color: #20c997;
+  border: none;
+  border-radius: 6px;
+  transition: 0.2s all;
+  color: ${({theme}) => theme.fontColor};
+  cursor: pointer;
 
   &:hover {
-    background-color: ${({theme}) => theme.fontColor};
-    color: ${({theme}) => theme.backgroundColor};
+    background-color: #1aa179;
   }
 `
 
