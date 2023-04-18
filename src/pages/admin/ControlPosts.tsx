@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import Header from '../../components/Header';
 import axios, { AxiosResponse } from 'axios';
 import { useCookies } from "react-cookie";
@@ -6,10 +6,31 @@ import MDEditor from '@uiw/react-md-editor'
 import { RiImageAddFill } from 'react-icons/ri'
 import { HiHashtag } from 'react-icons/hi'
 import styled from "styled-components";
+import { returnTokenValue } from "../../utils/cookie";
+import { toast, Toaster } from "react-hot-toast";
 
 const ControlPosts = () => {
   const [cookies] = useCookies()
-  const [content, setContent] = useState("<!-- title -->\n # 제목을 입력하세요");
+  const [content, setContent] = useState('');
+  const [userId, setUserId] = useState<number>(NaN)
+  const [title, setTitle] = useState<string>('')
+  const [info, setInfo] = useState<string>('')
+  const [role, setRole] = useState<string>('')
+  const [isFormSaved, setIsFormSaved] = useState<boolean>(false)
+
+  useEffect(() => {
+    returnTokenValue()
+      .then((res: any) => {
+        console.log(res)
+        if (res?.roles === "ROLE_ADMIN") {
+          console.log(res)
+          setUserId(res.id)
+          setRole(res.roles)
+        }
+      })
+      .catch((err) => console.log(err));
+
+  }, [])
 
   const extractSpanValuesFromText = (): string[] => {
     const regex = /<span.*?>(.*?)<\/span>/g;
@@ -29,34 +50,74 @@ const ControlPosts = () => {
     }
   }
 
-  const extractTitleFromText = (): string => {
-    const text = content.replace('# ', '')
-    const regex = /<!--\s*title\s*-->\s*(.*)/;
-    const match = text.match(regex);
+  const ErrorToast = (text: string) => toast(text, {
+    position: 'top-center',
+    duration: 1000,
+    style: {
+      backgroundColor: '#e03535',
+      fontFamily: 'Pretendard-Regular',
+      color: '#fff',
+    }
+  });
+
+  const extractImage = (): string | null => {
+    const regex = /!\[Image\]\((.*?)\)/;
+    const match = content.match(regex);
     if (match && match.length >= 2) {
-      return match[1].trim();
+      return extractFileNameFromUrl(match[1].trim());
     } else {
-      return '';
+      return null;
     }
   }
+
+  const extractFileNameFromUrl = (url: string): string | null => {
+    const match = url.match(/\/([^/]+)$/);
+    if (match && match.length === 2) {
+      return match[1];
+    } else {
+      return null;
+    }
+  };
 
 
   const addPost = () => {
     let postContent = {
-      "memberId": 1,
-      "title": extractTitleFromText(),
+      "memberId": userId,
+      "title": title,
+      'info': info,
       "content": content,
-      "hashTag": extractSpanValuesFromText()
+      "hashTag": extractSpanValuesFromText(),
+      'image': extractImage()
     }
 
-    // axios.post(`${import.meta.env.VITE_API_URL}/api/admin/post`, JSON.stringify(tmp), {
-    //   headers: {
-    //     'Authorization': `Bearer ${cookies.token}`,
-    //     'Content-Type': 'application/json'
-    //   },
-    // })
-    //   .then((res: AxiosResponse) => console.log(res))
-    //   .catch((err) => console.log(err))
+    if (postContent.image === null) {
+      ErrorToast('한개 이상의 이미지를 첨부해 주세요')
+    } else if (!isFormSaved) {
+      ErrorToast('제목과 소개글을 먼저 입력해 주세요')
+    } else {
+      toast.promise(
+        axios.post(`${import.meta.env.VITE_API_URL}/api/admin/post`, JSON.stringify(postContent), {
+          headers: {
+            'Authorization': `Bearer ${cookies.token}`,
+            'Content-Type': 'application/json'
+          },
+        }).then(() => setContent('')),
+        {
+          loading: '업로드중..',
+          success: <div style={{fontSize: '1rem'}}>업로드가 완료되었습니다!</div>,
+          error: <div>에러가 발생하였습니다. 새로고침 후 다시 시도해 주세요.</div>
+        }, {
+          duration: 3500,
+          position: 'top-center',
+          style: {
+            backgroundColor: '#61d345',
+            width: '16rem',
+            color: '#fff',
+            fontFamily: 'Noto Sans KR, sans-serif'
+          }
+        }
+      )
+    }
   }
 
   const handleImageUpload = async (file: File, onSuccess: (url: string) => void, onError: (error: any) => void) => {
@@ -79,62 +140,97 @@ const ControlPosts = () => {
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      handleImageUpload(file,
-        (url: string) => {
-          // 이미지 업로드 성공 시, 이미지 URL을 setContent 함수를 호출하여 에디터에 추가
-          setContent(content + `![Image](${url})\n`);
-        },
-        (error) => {
-          // 이미지 업로드 실패 시, 에러 정보를 처리
-          console.log('Image upload failed:', error);
-        }
-      );
+    if (!isFormSaved) ErrorToast('제목과 소개글을 먼저 입력해 주세요')
+    else {
+      const file = event.target.files?.[0];
+      if (file) {
+        handleImageUpload(file,
+          (url: string) => {
+            // 이미지 업로드 성공 시, 이미지 URL을 setContent 함수를 호출하여 에디터에 추가
+            setContent(content + `![Image](${url})\n`);
+          },
+          (error) => {
+            // 이미지 업로드 실패 시, 에러 정보를 처리
+            console.log('Image upload failed:', error);
+          }
+        );
+      }
     }
   };
 
   const addHashtag = () => {
-    setContent('<span style="background-color: #252525; color: #96f2d7; width: auto; padding-left: 0.5rem;' +
-      ' padding-right: 0.5rem; border-radius: 5px;">#</span> ' + content)
+    if (!isFormSaved) ErrorToast('제목과 소개글을 먼저 입력해 주세요')
+    else {
+      const regex = /(\n)/g;
+      setContent(content => content.replace(regex, '$1<span style="background-color: #252525; color: #96f2d7; width: auto; padding-left: 0.5rem; padding-right: 0.5rem; border-radius: 5px;">#</span>\n'));
+    }
   }
 
-  return (
+  const changeTitleAndInfo = (e: FormEvent) => {
+    e.preventDefault()
+    !isFormSaved && setContent(`# ${title}\n> ${info}`)
+    setIsFormSaved(true)
+  }
+
+  const handleContentValue = (value: string) => {
+    if (!isFormSaved) {
+      ErrorToast('제목과 소개글을 먼저 입력해 주세요')
+    } else {
+      setContent(value)
+    }
+  }
+
+  if (role !== 'ROLE_ADMIN') return (
     <>
       <Header/>
-      <div className={'editor-container'}>
-
-        <TopContainer>
-          <InputImage>
-            <label htmlFor="fileInput">
-              <RiImageAddFill style={{fontSize: '1rem', marginBottom: '-0.15rem'}}/>
-              <span style={{fontSize: '0.9rem', marginLeft: '0.3rem'}}>Add Image</span>
-            </label>
-            <input type="file" id="fileInput" style={{display: 'none'}} onChange={handleFileSelect}/>
-          </InputImage>
-
-          <AddHashTag onClick={addHashtag}>
-            <HiHashtag style={{fontSize: '1rem', marginBottom: '-0.15rem'}}/>
-            <span style={{fontSize: '0.9rem', marginLeft: '0.3rem'}}>Add Hashtag</span>
-          </AddHashTag>
-
-          <AddPost onClick={addPost}>
-            업로드
-          </AddPost>
-        </TopContainer>
-
-        <div data-color-mode={cookies.theme === 'dark' ? 'dark' : 'light'}>
-          <div className={'wmde-markdown-var'}></div>
-          <MDEditor
-            value={content}
-            onChange={(value: any) => setContent(value)}
-            height={650}
-          />
-        </div>
-      </div>
-
     </>
   )
+  else {
+    return (
+      <>
+        <Header/>
+        <div className={'editor-container'}>
+
+          <TopContainer>
+            <InputImage>
+              <label htmlFor="fileInput">
+                <RiImageAddFill style={{fontSize: '1rem', marginBottom: '-0.15rem'}}/>
+                <span style={{fontSize: '0.9rem', marginLeft: '0.3rem'}}>Add Image</span>
+              </label>
+              <input type="file" id="fileInput" style={{display: 'none'}} onChange={handleFileSelect}/>
+            </InputImage>
+
+            <AddHashTag onClick={addHashtag}>
+              <HiHashtag style={{fontSize: '1rem', marginBottom: '-0.15rem'}}/>
+              <span style={{fontSize: '0.9rem', marginLeft: '0.3rem'}}>Add Hashtag</span>
+            </AddHashTag>
+
+            <InputForm onSubmit={changeTitleAndInfo}>
+              <Input placeholder={'제목 입력'} value={title} onChange={(e) => setTitle(e.target.value)}
+                     readOnly={isFormSaved} required={true}/>
+              <Input placeholder={'소개글 입력'} value={info} style={{width: '15rem'}}
+                     onChange={(e) => setInfo(e.target.value)} readOnly={isFormSaved} required={true}/>
+              {!isFormSaved && <SubmitButton type={'submit'}>확인</SubmitButton>}
+            </InputForm>
+
+            <AddPost onClick={addPost}>
+              업로드
+            </AddPost>
+          </TopContainer>
+
+          <div data-color-mode={cookies.theme === 'dark' ? 'dark' : 'light'}>
+            <div className={'wmde-markdown-var'}></div>
+            <MDEditor
+              value={content}
+              onChange={(value: any) => handleContentValue(value)}
+              height={650}
+            />
+          </div>
+        </div>
+        <Toaster/>
+      </>
+    )
+  }
 }
 
 const TopContainer = styled.div`
@@ -178,6 +274,36 @@ const AddPost = styled.button`
   &:hover {
     background-color: #1aa179;
   }
+`
+
+const InputForm = styled.form`
+  width: 35rem;
+  float: left;
+  height: auto;
+`
+
+const Input = styled.input`
+  width: 10rem;
+  float: left;
+  height: 1.8rem;
+  margin-left: 1rem;
+  background: none;
+  border: none;
+  color: ${({theme}) => theme.fontColor};
+  border-radius: 9px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+`
+
+const SubmitButton = styled.button`
+  width: 3rem;
+  height: 2rem;
+  background: ${({theme}) => theme.fontColor};
+  color: ${({theme}) => theme.backgroundColor};
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 1rem;
 `
 
 export default ControlPosts;

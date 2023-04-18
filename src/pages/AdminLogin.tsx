@@ -1,17 +1,28 @@
-import React, { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import Header from "../components/Header";
 import styled, { keyframes } from "styled-components";
 import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { returnTokenValue, setTokenCookie } from "../utils/cookie";
+import Cookies from "js-cookie";
 
 const AdminLogin = () => {
   const [headingText, setHeadingText] = useState<string>('Enter your password')
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [password, setPassword] = useState<string>('')
-  const [cookies, setCookie] = useCookies()
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    returnTokenValue()
+      .then((res: any) => {
+        if (res?.roles === "ROLE_ADMIN") {
+          navigate('/admin/posts');
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleSelectAll = () => {
     if (inputRef.current) {
@@ -31,10 +42,7 @@ const AdminLogin = () => {
     axios.post(`${import.meta.env.VITE_API_URL}/api/login`, payload)
       .then((res: AxiosResponse) => {
         if (res.status === 200) {
-          setCookie('token', res.data.token, {
-            sameSite: 'none',
-            secure: true
-          })
+          setTokenCookie(res.data.token)
           navigate('/admin/posts')
         }
       })
