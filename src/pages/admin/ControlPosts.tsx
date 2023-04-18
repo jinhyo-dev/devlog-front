@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import Header from '../../components/Header';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { useCookies } from "react-cookie";
 import MDEditor from '@uiw/react-md-editor'
 import { RiImageAddFill } from 'react-icons/ri'

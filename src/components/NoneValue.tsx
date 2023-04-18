@@ -5,7 +5,7 @@ const NoneValue = () => {
   return (
     <Container>
       <img src={NoneValueImage} alt={'none-value-image'}/>
-      <div>선택하신 값이 존재하지 않습니다.</div>
+      <div>검색하신 값이 존재하지 않습니다.</div>
     </Container>
   )
 }
@@ -26,19 +26,18 @@ const floatingAnimation = keyframes`
 const Container = styled.div`
   width: 20rem;
   height: 12.5rem;
-  margin: 30vh auto 0;
+  margin: 18vh auto 0;
   text-align: center;
   
   & img {
-    width: 8rem;
+    width: 20rem;
     animation: ${floatingAnimation} 2.5s ease-in-out infinite; 
   }
   
   & div {
-    margin-top: 2rem;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-family: 'SUIT-Regular';
-    color: #66cedb;
+    color: ${({theme}) => theme.secondColor};
     font-weight: bold;
   }
 `

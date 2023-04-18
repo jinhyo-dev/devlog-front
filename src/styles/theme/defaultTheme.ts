@@ -11,11 +11,13 @@ export interface CustomTheme extends DefaultTheme {
   hashtagColor: string;
   hashtagBorder: string;
   hashtagHoverColor: string;
+  secondColor: string;
+  headerBackground: string;
 }
 
 export const lightTheme: CustomTheme = {
-  backgroundColor: "#f9f9f9",
-  boxColor: '#fff',
+  backgroundColor: "#fff",
+  boxColor: '#fefefe',
   fontColor: "#212529",
   boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px',
   boxShadowHover: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px',
@@ -24,11 +26,13 @@ export const lightTheme: CustomTheme = {
   hashtagColor: '#72bad2',
   hashtagBorder: '1px solid #ADD8E6',
   hashtagHoverColor: '#72bad2',
+  secondColor: '#8ba6b2',
+  headerBackground: 'rgba(255,255,255,0.86)'
 };
 
 export const darkTheme: CustomTheme = {
-  backgroundColor: "#1c1c27",
-  boxColor: "hsla(0, 100%, 100%, 0.08)",
+  backgroundColor: "#0d1117",
+  boxColor: "hsla(0, 100%, 100%, 0.03)",
   fontColor: "#ececec",
   boxShadow: '0px 12px 17px 2px hsla(0, 0%, 0%, 0.14), 0px 5px 22px 4px hsla(0, 0%, 0%, 0.12), 0px 7px 8px -4px hsla(0, 0%, 0%, 0.2)',
   boxShadowHover: '0px 12px 17px 2px hsla(0, 0%, 0%, 0.14), 0px 5px 22px 4px hsla(0, 0%, 0%, 0.12), 0px 7px 8px -4px hsla(0, 0%, 0%, 0.2)',
@@ -37,4 +41,6 @@ export const darkTheme: CustomTheme = {
   hashtagColor: '#aaa9bc',
   hashtagBorder: '1px solid #434463',
   hashtagHoverColor: '#aaa9bc',
+  secondColor: '#aaa9bc',
+  headerBackground: 'rgba(13,17,23,0.86)'
 };

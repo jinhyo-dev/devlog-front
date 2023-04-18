@@ -14,15 +14,18 @@ specifiers:
   jwt-decode: ^3.1.2
   md-editor-v3: ^2.11.0
   react: ^18.2.0
+  react-confirm-alert: ^3.0.6
   react-cookie: ^4.1.1
   react-dom: ^18.2.0
   react-dropzone: ^14.2.3
   react-hot-toast: ^2.4.0
   react-icons: ^4.8.0
   react-lines-ellipsis: ^0.15.3
+  react-markdown: ^8.0.7
   react-router-dom: ^6.10.0
   react-simplemde-editor: ^5.2.0
   react-toggle-dark-mode: ^1.1.1
+  remark-gfm: ^3.0.1
   styled-components: ^5.3.9
   typescript: ^4.9.5
   vite: ^4.2.1
@@ -38,15 +41,18 @@ dependencies:
   jwt-decode: 3.1.2
   md-editor-v3: 2.11.0
   react: 18.2.0
+  react-confirm-alert: 3.0.6_biqbaboplfbrettd7655fr4n2y
   react-cookie: 4.1.1_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-dropzone: 14.2.3_react@18.2.0
   react-hot-toast: 2.4.0_biqbaboplfbrettd7655fr4n2y
   react-icons: 4.8.0_react@18.2.0
   react-lines-ellipsis: 0.15.3_biqbaboplfbrettd7655fr4n2y
+  react-markdown: 8.0.7_b7lksjcz5zr4rqebyeqormarua
   react-router-dom: 6.10.0_biqbaboplfbrettd7655fr4n2y
   react-simplemde-editor: 5.2.0_krhfp6bid7kgajqtgldm7tc45a
   react-toggle-dark-mode: 1.1.1_biqbaboplfbrettd7655fr4n2y
+  remark-gfm: 3.0.1
   styled-components: 5.3.9_biqbaboplfbrettd7655fr4n2y
 
 devDependencies:
@@ -791,7 +797,7 @@ packages:
       '@uiw/copy-to-clipboard': 1.0.12
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-markdown: 8.0.6_b7lksjcz5zr4rqebyeqormarua
+      react-markdown: 8.0.7_b7lksjcz5zr4rqebyeqormarua
       rehype-attr: 2.1.4
       rehype-autolink-headings: 6.1.1
       rehype-ignore: 1.0.4
@@ -1904,6 +1910,16 @@ packages:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
     dev: false
 
+  /react-confirm-alert/3.0.6_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-rplP6Ed9ZSNd0KFV5BUzk4EPQ77BxsrayllBXGFuA8xPXc7sbBjgU5KUrNpl7aWFmP7mXRlVXfuy1IT5DbffYw==}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=10.0.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /react-cookie/4.1.1_react@18.2.0:
     resolution: {integrity: sha512-ffn7Y7G4bXiFbnE+dKhHhbP+b8I34mH9jqnm8Llhj89zF4nPxPutxHT1suUqMeCEhLDBI7InYwf1tpaSoK5w8A==}
     peerDependencies:
@@ -1977,8 +1993,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /react-markdown/8.0.6_b7lksjcz5zr4rqebyeqormarua:
-    resolution: {integrity: sha512-KgPWsYgHuftdx510wwIzpwf+5js/iHqBR+fzxefv8Khk3mFbnioF1bmL2idHN3ler0LMQmICKeDrWnZrX9mtbQ==}
+  /react-markdown/8.0.7_b7lksjcz5zr4rqebyeqormarua:
+    resolution: {integrity: sha512-bvWbzG4MtOU62XqBx3Xx+zB2raaFFsq4mYiAzfjXJMEz2sixgeAfraA3tvzULF02ZdOMUOKTBFFaZJDDrq+BJQ==}
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'

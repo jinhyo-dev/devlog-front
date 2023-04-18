@@ -16,6 +16,7 @@ const fadeIn = keyframes`
 
 export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
   @font-face {
     font-family: 'D2Coding';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff') format('woff');
@@ -156,6 +157,88 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     height: 100%;
   }
 
+  .custom-alert-ui {
+    background-color: ${({theme}) => theme.backgroundColor};
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    position: relative;
+    width: 400px;
+    color: ${({theme}) => theme.fontColor};
+    font-family: 'D2Coding';
+
+    & .logo-container {
+      color: ${({theme}) => theme.fontColor};
+      width: 10rem;
+      text-align: center;
+      margin: auto;
+
+      & .terminal-icon {
+        font-size: 1.2rem;
+      }
+
+      & .font {
+        font-size: 0.8rem;
+        text-align: center;
+      }
+    }
+
+    & p {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    & .button-container {
+      width: 8rem;
+      margin: auto;
+
+      & button {
+        cursor: pointer;
+        width: 3.7rem;
+        height: 1.8rem;
+        border: none;
+        border-radius: 3px;
+        transition: all 0.2s;
+
+        &:hover {
+          height: 2rem;
+          width: 3.9rem;
+        }
+      }
+
+      & .close-btn {
+        background-color: ${({theme}) => theme.boxColor};
+        color: ${({theme}) => theme.fontColor};
+      }
+
+      & .logout-btn {
+        float: right;
+        background-color: ${({theme}) => theme.hashtagColor};
+        color: ${({theme}) => theme.backgroundColor};
+      }
+    }
+  }
+
+  .react-confirm-alert-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 99999;
+  }
+
+  .react-confirm-alert-body {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: relative;
+    z-index: 100000;
+  }
+
   @media (max-width: 549px) {
     .box {
       width: 100%;
@@ -187,7 +270,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     .box {
       width: calc(33.33% - 20px);
     }
-    
+
     .box .text-container {
       & .title {
         font-size: 0.9rem;
