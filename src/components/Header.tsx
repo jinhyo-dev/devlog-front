@@ -1,23 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsTerminalFill } from 'react-icons/bs'
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
-import {useCookies} from 'react-cookie'
+import { useCookies } from 'react-cookie'
 import styled from "styled-components";
-import { FaUserLock } from 'react-icons/fa'
+import { FaUserCog } from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
+import { MdLogout } from 'react-icons/md'
+import { deleteCookie, returnTokenValue } from "../utils/cookie";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const Header = () => {
   const navigate = useNavigate()
   const [cookies, setCookie] = useCookies()
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+
+  useEffect(() => {
+    returnTokenValue()
+      .then((res: any) => {
+        if (res?.roles === "ROLE_ADMIN") {
+          setIsAdmin(true)
+        }
+      })
+      .catch((err) => console.log(err));
+  }, [])
 
   const toggleDarkMode = () => {
     let checked: string = cookies.theme
-    setCookie('theme',checked === 'dark' ? 'light' : 'dark')
+    setCookie('theme', checked === 'dark' ? 'light' : 'dark')
   };
+
+  const logoutHandler = () => {
+    return (
+      confirmAlert({
+        customUI: ({onClose}) => {
+          return (
+            <div className='custom-alert-ui'>
+              <div className={'logo-container'}>
+                <div>
+                  <BsTerminalFill className={'terminal-icon'}/>
+                </div>
+                <div className={'font'}>
+                  Jinhyo's Devlog
+                </div>
+              </div>
+
+              <p>Do you want to logout?</p>
+              <div className={'button-container'}>
+                <button onClick={onClose} className={'close-btn'}>No</button>
+                <button
+                  onClick={() => {
+                    deleteCookie()
+                    onClose();
+                  }}
+                  className={'logout-btn'}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          )
+        }
+      })
+    )
+  }
 
   return (
     <>
-      <header className={'header'}>
+      <HeaderTag>
         <Logo onClick={() => navigate('/')}>
 
           <div>
@@ -38,13 +88,34 @@ const Header = () => {
           />
         </div>
 
-        <AdminLink onClick={() => navigate('/login')}>
-          <FaUserLock/>
+
+        <AdminLink onClick={() => navigate(isAdmin ? '/admin/posts' : '/login')}>
+          <FaUserCog/>
         </AdminLink>
-      </header>
+
+        {
+          isAdmin && (
+            <AdminLink onClick={logoutHandler}>
+              <MdLogout/>
+            </AdminLink>
+          )
+        }
+
+      </HeaderTag>
     </>
   )
 }
+
+const HeaderTag = styled.header`
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 5rem;
+  font-family: 'D2Coding';
+  font-size: 1.7rem;
+  background: ${({theme}) => theme.headerBackground};
+  z-index: 1000;
+`
 
 const Logo = styled.div`
   height: 5rem;
@@ -52,10 +123,11 @@ const Logo = styled.div`
   width: 10rem;
   text-align: center;
   margin-left: 5%;
-  
+  cursor: pointer;
+
   & div {
     font-size: 1rem;
-    color: ${({ theme }) => theme.fontColor};
+    color: ${({theme}) => theme.fontColor};
   }
 
   & div svg {
@@ -70,7 +142,7 @@ const AdminLink = styled.div`
   float: right;
   height: auto;
   width: 2rem;
-  color: ${({ theme }) => theme.fontColor};
+  color: ${({theme}) => theme.fontColor};
   text-align: center;
   margin-right: 0.5rem;
   cursor: pointer;

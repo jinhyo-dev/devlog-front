@@ -5,10 +5,12 @@ import MDEditor from "@uiw/react-md-editor";
 import styled from "styled-components";
 import Header from "../components/Header";
 import { useCookies } from "react-cookie";
+import Loaders from "../components/Loaders";
 
 const Post = () => {
   const [cookies] = useCookies()
   const [content, setContent] = useState<any>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const {postId} = useParams()
 
   useEffect(() => {
@@ -17,16 +19,26 @@ const Post = () => {
         console.log(res.data.result.content)
         setContent(res.data.result.content)
       })
+      .then(() => setIsLoading(false))
   }, [postId])
 
-  return (
-    <>
-      <Header/>
-      <EditorContainer data-color-mode={cookies.theme === 'dark' ? 'dark' : 'light'}>
-        <MDEditor.Markdown source={content}/>
-      </EditorContainer>
-    </>
-  )
+  if (isLoading) {
+    return (
+      <>
+        <Header/>
+        <Loaders/>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <Header/>
+        <EditorContainer data-color-mode={cookies.theme === 'dark' ? 'dark' : 'light'}>
+          <MDEditor.Markdown source={content}/>
+        </EditorContainer>
+      </>
+    )
+  }
 }
 
 const EditorContainer = styled.div`
