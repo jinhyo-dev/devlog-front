@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useCookies } from "react-cookie";
 import MDEditor from '@uiw/react-md-editor'
 import { RiImageAddFill } from 'react-icons/ri'
-import { HiHashtag } from 'react-icons/hi'
 import styled from "styled-components";
 import { returnTokenValue } from "../../utils/cookie";
 import { toast, Toaster } from "react-hot-toast";
@@ -16,6 +15,8 @@ const ControlPosts = () => {
   const [title, setTitle] = useState<string>('')
   const [info, setInfo] = useState<string>('')
   const [role, setRole] = useState<string>('')
+  const [tags, setTags] = useState<string[]>([])
+  const [tagValue, setTagValue] = useState<string>('')
   const [isFormSaved, setIsFormSaved] = useState<boolean>(false)
 
   useEffect(() => {
@@ -31,24 +32,6 @@ const ControlPosts = () => {
       .catch((err) => console.log(err));
 
   }, [])
-
-  const extractSpanValuesFromText = (): string[] => {
-    const regex = /<span.*?>(.*?)<\/span>/g;
-    const text = content
-    const matches = text.match(regex);
-    if (matches) {
-      return matches.map(match => {
-        const spanTag = match.match(/<span.*?>(.*?)<\/span>/);
-        if (spanTag && spanTag[1]) {
-          return spanTag[1];
-        } else {
-          return '';
-        }
-      });
-    } else {
-      return [];
-    }
-  }
 
   const ErrorToast = (text: string) => toast(text, {
     position: 'top-center',
@@ -86,9 +69,11 @@ const ControlPosts = () => {
       "title": title,
       'info': info,
       "content": content,
-      "hashTag": extractSpanValuesFromText(),
+      "hashTag": tags,
       'image': extractImage()
     }
+
+    console.log(postContent)
 
     if (postContent.image === null) {
       ErrorToast('한개 이상의 이미지를 첨부해 주세요')
@@ -107,7 +92,7 @@ const ControlPosts = () => {
           success: <div style={{fontSize: '1rem'}}>업로드가 완료되었습니다!</div>,
           error: <div>에러가 발생하였습니다. 새로고침 후 다시 시도해 주세요.</div>
         }, {
-          duration: 3500,
+          duration: 2000,
           position: 'top-center',
           style: {
             backgroundColor: '#61d345',
@@ -158,17 +143,18 @@ const ControlPosts = () => {
     }
   };
 
-  const addHashtag = () => {
-    if (!isFormSaved) ErrorToast('제목과 소개글을 먼저 입력해 주세요')
-    else {
-      const regex = /(\n)/g;
-      setContent(content => content.replace(regex, '$1<span style="background-color: #252525; color: #96f2d7; width: auto; padding-left: 0.5rem; padding-right: 0.5rem; border-radius: 5px;">#</span>\n'));
-    }
-  }
-
   const changeTitleAndInfo = (e: FormEvent) => {
     e.preventDefault()
-    !isFormSaved && setContent(`# ${title}\n> ${info}`)
+    const extractArr = tagValue
+      .split(',')
+      .map((str: string) => str.trim())
+      .filter((str: string, index: number, arr: string[]) =>
+        str.length > 0 && arr.indexOf(str) === index
+      );
+
+    setTagValue(extractArr.map((v: string, index: number) => index === extractArr.length - 1 ? `${v}` : `${v}, `).join(''))
+    !isFormSaved && setContent(`# ${title}\n${extractArr.map(v => `\`${v}\``).join('&nbsp;&nbsp;&nbsp;')}\n> ${info}\n\n`)
+    setTags(extractArr)
     setIsFormSaved(true)
   }
 
@@ -187,7 +173,7 @@ const ControlPosts = () => {
   )
   else {
     return (
-      <>
+      <Container>
         <Header/>
         <div className={'editor-container'}>
 
@@ -200,16 +186,13 @@ const ControlPosts = () => {
               <input type="file" id="fileInput" style={{display: 'none'}} onChange={handleFileSelect}/>
             </InputImage>
 
-            <AddHashTag onClick={addHashtag}>
-              <HiHashtag style={{fontSize: '1rem', marginBottom: '-0.15rem'}}/>
-              <span style={{fontSize: '0.9rem', marginLeft: '0.3rem'}}>Add Hashtag</span>
-            </AddHashTag>
-
             <InputForm onSubmit={changeTitleAndInfo}>
               <Input placeholder={'제목 입력'} value={title} onChange={(e) => setTitle(e.target.value)}
                      readOnly={isFormSaved} required={true}/>
               <Input placeholder={'소개글 입력'} value={info} style={{width: '15rem'}}
                      onChange={(e) => setInfo(e.target.value)} readOnly={isFormSaved} required={true}/>
+              <Input placeholder={"태그 입력(쉼표 ','로 구분)"} style={{width: '15rem'}} required={true}
+                     readOnly={isFormSaved} value={tagValue} onChange={(e) => setTagValue(e.target.value)}/>
               {!isFormSaved && <SubmitButton type={'submit'}>확인</SubmitButton>}
             </InputForm>
 
@@ -228,10 +211,14 @@ const ControlPosts = () => {
           </div>
         </div>
         <Toaster/>
-      </>
+      </Container>
     )
   }
 }
+
+const Container = styled.div`
+  min-width: 1150px;
+`
 
 const TopContainer = styled.div`
   width: 100%;
@@ -245,16 +232,6 @@ const InputImage = styled.div`
   width: 6.5rem;
   float: left;
   text-align: center;
-  transition: all 0.2s;
-  cursor: pointer;
-`
-
-const AddHashTag = styled.div`
-  margin-top: 0.3rem;
-  text-align: center;
-  width: 7rem;
-  float: left;
-  margin-left: 1rem;
   transition: all 0.2s;
   cursor: pointer;
 `
@@ -277,7 +254,7 @@ const AddPost = styled.button`
 `
 
 const InputForm = styled.form`
-  width: 35rem;
+  width: 50rem;
   float: left;
   height: auto;
 `

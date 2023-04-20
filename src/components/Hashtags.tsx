@@ -1,25 +1,12 @@
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import styled from "styled-components";
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from 'react-icons/md'
-import { useNavigate, useParams } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Hashtags = () => {
+const Hashtags = (props: any) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = useState<string>('')
-  const [hashtag, setHashtag] = useState<any>([])
-  const [postCount, setPostCount] = useState<number>(NaN)
-
-  useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/api/hashtag`)
-      .then((res: AxiosResponse) => {
-        console.log(res.data.result.hashTags)
-        setHashtag(res.data.result.hashTags)
-        setPostCount(res.data.result.postCount)
-      })
-      .catch((err) => console.error(err))
-  }, [])
 
   const handleScroll = (scrollOffset: number) => {
     if (scrollRef.current)
@@ -39,8 +26,8 @@ const Hashtags = () => {
         </ArrowButton>
         <Hashtag ref={scrollRef}>
           <>
-            <Button style={{marginLeft: '0'}} onClick={() => navigate('/')}>All ({postCount})</Button>
-            {Object.values(hashtag).map((value: any, index: number) => (
+            <Button style={{marginLeft: '0'}} onClick={() => navigate('/')}>All ({props.postCount})</Button>
+            {Object.values(props.hashtag).map((value: any, index: number) => (
               <Button onClick={() => navigate(`/tag/${value.hashtag}`)} key={index}>
                 {value.hashtag} ({value.count})
               </Button>
@@ -144,7 +131,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({theme}) => theme.hashtagHoverColor};
+    background-color: ${({theme}) => theme.hashtagColor};
     color: ${({theme}) => theme.backgroundColor};
   }
 `

@@ -10,7 +10,7 @@ export interface CustomTheme extends DefaultTheme {
   bottomBoxBorderColor: string;
   hashtagColor: string;
   hashtagBorder: string;
-  hashtagHoverColor: string;
+  hashtagBackgroundColor: string;
   secondColor: string;
   headerBackground: string;
 }
@@ -25,7 +25,7 @@ export const lightTheme: CustomTheme = {
   bottomBoxBorderColor: '1px solid #f1f4f5',
   hashtagColor: '#72bad2',
   hashtagBorder: '1px solid #ADD8E6',
-  hashtagHoverColor: '#72bad2',
+  hashtagBackgroundColor: '#f1f1f1',
   secondColor: '#8ba6b2',
   headerBackground: 'rgba(255,255,255,0.86)'
 };
@@ -40,7 +40,7 @@ export const darkTheme: CustomTheme = {
   bottomBoxBorderColor: '1px solid #4d4e4f',
   hashtagColor: '#aaa9bc',
   hashtagBorder: '1px solid #434463',
-  hashtagHoverColor: '#aaa9bc',
+  hashtagBackgroundColor: '#0d1117',
   secondColor: '#aaa9bc',
   headerBackground: 'rgba(13,17,23,0.86)'
 };

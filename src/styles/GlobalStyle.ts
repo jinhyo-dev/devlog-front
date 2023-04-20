@@ -63,7 +63,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     margin: auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start; /* 수정: 왼쪽 정렬 */
+    justify-content: flex-start;
     transition: all 0.5s;
   }
 
@@ -92,6 +92,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     border-top-right-radius: 8px;
 
     & img {
+      object-fit: cover;
       height: 100%;
       width: 100%;
       border-top-left-radius: 8px;
@@ -127,6 +128,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     }
 
     & .bottom-text {
+      cursor: default;
       font-family: 'Pretendard-Regular';
       border-top: ${({theme}) => theme.bottomBoxBorderColor};
       height: 2rem;
@@ -142,6 +144,29 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         position: relative;
         transform: translateY(-50%);
         color: #777;
+      }
+
+      & .edit-icon {
+        cursor: pointer;
+        margin-bottom: -0.05rem;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+
+        &:hover {
+          color: #139ff2;
+        }
+      }
+
+      & .delete-icon {
+        cursor: pointer;
+        margin-bottom: -0.05rem;
+        margin-left: 0.3rem;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+
+        &:hover {
+          color: #ee5f5f;
+        }
       }
     }
   }

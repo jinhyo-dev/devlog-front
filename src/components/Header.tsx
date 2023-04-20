@@ -9,6 +9,7 @@ import { MdLogout } from 'react-icons/md'
 import { deleteCookie, returnTokenValue } from "../utils/cookie";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import Tooltip from '@mui/material/Tooltip';
 
 const Header = () => {
   const navigate = useNavigate()
@@ -89,15 +90,19 @@ const Header = () => {
         </div>
 
 
-        <AdminLink onClick={() => navigate(isAdmin ? '/admin/posts' : '/login')}>
-          <FaUserCog/>
-        </AdminLink>
+        <Tooltip title={'Admin'}>
+          <AdminLink onClick={() => navigate(isAdmin ? '/admin/posts' : '/login')}>
+            <FaUserCog/>
+          </AdminLink>
+        </Tooltip>
 
         {
           isAdmin && (
-            <AdminLink onClick={logoutHandler}>
-              <MdLogout/>
-            </AdminLink>
+            <Tooltip title={'Logout'}>
+              <AdminLink onClick={logoutHandler}>
+                <MdLogout/>
+              </AdminLink>
+            </Tooltip>
           )
         }
 
