@@ -6,14 +6,14 @@ import styled from "styled-components";
 import { FaUserCog } from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
 import { MdLogout } from 'react-icons/md'
-import { deleteCookie, returnTokenValue } from "../utils/cookie";
+import { returnTokenValue } from "../utils/cookie";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Tooltip from '@mui/material/Tooltip';
 
 const Header = () => {
   const navigate = useNavigate()
-  const [cookies, setCookie] = useCookies()
+  const [cookies, setCookie, deleteCookie] = useCookies()
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
   useEffect(() => {
@@ -28,7 +28,10 @@ const Header = () => {
 
   const toggleDarkMode = () => {
     let checked: string = cookies.theme
-    setCookie('theme', checked === 'dark' ? 'light' : 'dark')
+    setCookie('theme', checked === 'dark' ? 'light' : 'dark', {
+      sameSite: 'none',
+      secure: true
+    })
   };
 
   const logoutHandler = () => {
@@ -51,8 +54,9 @@ const Header = () => {
                 <button onClick={onClose} className={'close-btn'}>No</button>
                 <button
                   onClick={() => {
-                    deleteCookie()
+                    deleteCookie('token')
                     onClose();
+                    window.location.replace('/')
                   }}
                   className={'logout-btn'}
                 >
@@ -91,7 +95,7 @@ const Header = () => {
 
 
         <Tooltip title={'Admin'}>
-          <AdminLink onClick={() => navigate(isAdmin ? '/admin/posts' : '/login')}>
+          <AdminLink onClick={() => navigate(isAdmin ? '/admin/upload' : '/login')}>
             <FaUserCog/>
           </AdminLink>
         </Tooltip>
@@ -138,6 +142,19 @@ const Logo = styled.div`
   & div svg {
     font-size: 1.5rem;
     margin-top: 1.1rem;
+  }
+  
+  @media (max-width: 549px) {
+    width: 7rem;
+    
+    & div {
+      font-size: 0.8rem;
+    }
+
+    & div svg {
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+    }
   }
 `
 

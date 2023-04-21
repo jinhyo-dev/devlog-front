@@ -1,14 +1,6 @@
 import Cookies from 'js-cookie';
 import jwtDecode from "jwt-decode";
-
-export const setTokenCookie = (token: string): void => {
-  const expireTime = new Date(new Date().getTime() + 3 * 60 * 60 * 1000); // 3시간 후의 시간 설정
-  Cookies.set('token', token, {
-    expires: expireTime,
-    sameSite: 'none',
-    secure: true
-  });
-};
+import { useCookies } from "react-cookie";
 
 export const returnTokenValue = async () => {
   try {
@@ -27,6 +19,7 @@ export const returnTokenValue = async () => {
 
 
 export const deleteCookie = () => {
-  Cookies.remove('token')
+  const [cookies, setCookies, deleteCookies] = useCookies()
+  deleteCookies('token')
   window.location.replace('/')
 }

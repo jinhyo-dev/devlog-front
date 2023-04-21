@@ -3,8 +3,10 @@ import Main from "./pages/Main";
 import React from "react";
 import Providers from "./Providers";
 import AdminLogin from "./pages/AdminLogin";
-import ControlPosts from "./pages/admin/ControlPosts";
+import UploadPost from "./pages/admin/UploadPost";
 import Post from "./pages/Post";
+import EditPost from "./pages/admin/EditPost";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   return (
@@ -15,7 +17,9 @@ const App = () => {
         <Route path={'/search/:search'} element={<Main/>}/>
         <Route path={'/post/:postId'} element={<Post/>}/>
         <Route path={'/login'} element={<AdminLogin/>}/>
-        <Route path={'/admin/posts'} element={<ControlPosts/>}/>
+        <Route path={'/admin/upload'} element={<UploadPost/>}/>
+        <Route path={'/admin/edit/post/:postId'} element={<EditPost/>}/>
+        <Route path={'*'} element={<NotFound/>}/>
       </Routes>
     </Providers>
   )

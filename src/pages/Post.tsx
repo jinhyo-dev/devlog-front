@@ -45,6 +45,10 @@ const EditorContainer = styled.div`
   background-color: #0d1117;
   margin: 5vh auto;
   width: 65%;
+
+  @media (max-width: 549px) {
+    width: 90%;
+  }
 `
 
 export default Post

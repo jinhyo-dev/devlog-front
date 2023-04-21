@@ -3,11 +3,11 @@ import Header from "../components/Header";
 import styled, { keyframes } from "styled-components";
 import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
+import { returnTokenValue } from "../utils/cookie";
 import { useCookies } from "react-cookie";
-import { returnTokenValue, setTokenCookie } from "../utils/cookie";
-import Cookies from "js-cookie";
 
 const AdminLogin = () => {
+  const [cookies, setCookies] = useCookies()
   const [headingText, setHeadingText] = useState<string>('Enter your password')
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [password, setPassword] = useState<string>('')
@@ -18,7 +18,7 @@ const AdminLogin = () => {
     returnTokenValue()
       .then((res: any) => {
         if (res?.roles === "ROLE_ADMIN") {
-          navigate('/admin/posts');
+          navigate('/admin/upload');
         }
       })
       .catch((err) => console.log(err));
@@ -42,8 +42,11 @@ const AdminLogin = () => {
     axios.post(`${import.meta.env.VITE_API_URL}/api/login`, payload)
       .then((res: AxiosResponse) => {
         if (res.status === 200) {
-          setTokenCookie(res.data.token)
-          navigate('/admin/posts')
+          navigate('/')
+          setCookies('token', res.data.token, {
+            sameSite: "none",
+            secure: true
+          })
         }
       })
       .catch(() => {
@@ -126,6 +129,19 @@ const LoginForm = styled.form`
     color: ${({theme}) => theme.fontColor};
     font-size: 1.7rem;
     text-align: center;
+  }
+
+  @media (max-width: 549px) {
+    width: 18rem;
+
+    & input {
+      width: 16rem;
+    }
+    
+    & div {
+      font-size: 1.3rem;
+    }
+    
   }
 `
 

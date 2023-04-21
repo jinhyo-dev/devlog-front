@@ -232,14 +232,14 @@ const Main = () => {
 											<ControlIcon>
 
 												<Tooltip title={'수정'}>
-													<ControlButton>
+													<ControlButton onClick={() => navigate(`admin/edit/post/${value.id}`)}>
 														<MdEdit className={'edit-icon'}/>
 													</ControlButton>
 												</Tooltip>
 
 												<Tooltip title={'삭제'}>
-													<ControlButton>
-														<RiDeleteBin6Fill className={'delete-icon'} onClick={() => deleteHandler(value.id)}/>
+													<ControlButton onClick={() => deleteHandler(value.id)}>
+														<RiDeleteBin6Fill className={'delete-icon'}/>
 													</ControlButton>
 												</Tooltip>
 											</ControlIcon>
@@ -258,7 +258,7 @@ const Main = () => {
     return (
       <>
         <Header/>
-        <Hashtags/>
+        <Hashtags postCount={postCount} hashtag={hashtag}/>
         <NoneValue/>
       </>
     )

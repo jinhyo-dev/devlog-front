@@ -7,8 +7,9 @@ import { RiImageAddFill } from 'react-icons/ri'
 import styled from "styled-components";
 import { returnTokenValue } from "../../utils/cookie";
 import { toast, Toaster } from "react-hot-toast";
+import Unauthorized from "../../components/Unauthorized";
 
-const ControlPosts = () => {
+const UploadPost = () => {
   const [cookies] = useCookies()
   const [content, setContent] = useState('');
   const [userId, setUserId] = useState<number>(NaN)
@@ -169,6 +170,7 @@ const ControlPosts = () => {
   if (role !== 'ROLE_ADMIN') return (
     <>
       <Header/>
+      <Unauthorized/>
     </>
   )
   else {
@@ -206,7 +208,7 @@ const ControlPosts = () => {
             <MDEditor
               value={content}
               onChange={(value: any) => handleContentValue(value)}
-              height={650}
+              height={'80vh'}
             />
           </div>
         </div>
@@ -283,4 +285,4 @@ const SubmitButton = styled.button`
   margin-left: 1rem;
 `
 
-export default ControlPosts;
+export default UploadPost;
