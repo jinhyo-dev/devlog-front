@@ -86,7 +86,6 @@ const Main = () => {
         }, 50);
       })
       .catch((err) => {
-        console.error(err)
         setIsError(true)
         setIsLoading(false)
       })
@@ -179,7 +178,14 @@ const Main = () => {
       <Loaders/>
     </>
   )
-  else if (isError) return <h1>err</h1>
+  else if (isError) {
+    return (
+      <>
+        <Header/>
+        <NoneValue search={false}/>
+      </>
+    )
+  }
   else if (posts.length > 0 && !isLoading) {
     return (
       <>
@@ -259,7 +265,7 @@ const Main = () => {
       <>
         <Header/>
         <Hashtags postCount={postCount} hashtag={hashtag}/>
-        <NoneValue/>
+        <NoneValue search={true}/>
       </>
     )
   }

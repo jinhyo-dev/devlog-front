@@ -208,7 +208,7 @@ const UploadPost = () => {
             <MDEditor
               value={content}
               onChange={(value: any) => handleContentValue(value)}
-              height={'80vh'}
+              height={680}
             />
           </div>
         </div>

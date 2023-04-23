@@ -1,11 +1,11 @@
 import NoneValueImage from '../assets/none-value.png'
 import styled, { keyframes } from "styled-components";
 
-const NoneValue = () => {
+const NoneValue = (props: any) => {
   return (
     <Container>
       <img src={NoneValueImage} alt={'none-value-image'}/>
-      <div>검색하신 값이 존재하지 않습니다.</div>
+      <div>{props.search ? '검색하신 값이 존재하지 않습니다.' : '현재 게시물이 존재하지 않습니다.'}</div>
     </Container>
   )
 }
@@ -26,7 +26,7 @@ const floatingAnimation = keyframes`
 const Container = styled.div`
   width: 20rem;
   height: 12.5rem;
-  margin: 18vh auto 0;
+  margin: 25vh auto 0;
   text-align: center;
   
   & img {

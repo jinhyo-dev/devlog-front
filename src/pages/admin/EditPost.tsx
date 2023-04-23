@@ -62,7 +62,7 @@ const EditPost = () => {
     const matches = content.match(regex);
     if (!matches) return [];
     const uniqueTags = Array.from(new Set(matches));
-    const tags = uniqueTags.map((tag) => tag.replace(/`/g, "").trim());
+    const tags = uniqueTags.map((tag: any) => tag.replace(/`/g, "").trim());
     return tags;
   }
 
@@ -148,7 +148,7 @@ const EditPost = () => {
           <MDEditor
             value={content}
             onChange={(value: any) => setContent(value)}
-            height={'80vh'}
+            height={680}
           />
         </EditorContainer>
         <Toaster/>
