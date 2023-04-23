@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
 import jwtDecode from "jwt-decode";
-import { useCookies } from "react-cookie";
 
 export const returnTokenValue = async () => {
   try {
@@ -16,10 +15,3 @@ export const returnTokenValue = async () => {
     return null;
   }
 };
-
-
-export const deleteCookie = () => {
-  const [cookies, setCookies, deleteCookies] = useCookies()
-  deleteCookies('token')
-  window.location.replace('/')
-}

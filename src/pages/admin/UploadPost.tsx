@@ -23,9 +23,7 @@ const UploadPost = () => {
   useEffect(() => {
     returnTokenValue()
       .then((res: any) => {
-        console.log(res)
         if (res?.roles === "ROLE_ADMIN") {
-          console.log(res)
           setUserId(res.id)
           setRole(res.roles)
         }
@@ -74,8 +72,6 @@ const UploadPost = () => {
       'image': extractImage()
     }
 
-    console.log(postContent)
-
     if (postContent.image === null) {
       ErrorToast('한개 이상의 이미지를 첨부해 주세요')
     } else if (!isFormSaved) {
@@ -117,7 +113,6 @@ const UploadPost = () => {
           'Content-Type': 'multipart/form-data'
         },
       })
-      console.log(response.data.result.image.fileSaveName)
       onSuccess(import.meta.env.VITE_API_URL + '/image/' + response.data.result.image.fileSaveName);
     } catch (error) {
       // 이미지 업로드 실패 시, 에러 정보를 onError 콜백에 전달

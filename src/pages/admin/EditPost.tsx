@@ -97,8 +97,6 @@ const EditPost = () => {
       'image': extractImage()
     }
 
-    console.log(postContent)
-
     toast.promise(
       axios.post(`${import.meta.env.VITE_API_URL}/api/admin/edit`, JSON.stringify(postContent), {
         headers: {
