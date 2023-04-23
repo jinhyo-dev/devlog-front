@@ -21,6 +21,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     background-color: ${({theme}) => theme.backgroundColor};
     animation: ${fadeIn} 0.3s linear forwards;
     transition: background-color 0.3s linear;
+    min-width: 300px;
   }
 
   .toggle-container {
@@ -33,6 +34,10 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   .toggle-container .toggle-dark-theme {
     margin: 1.55rem auto 0;
     display: block;
+    
+    @media (max-width: 549px) {
+      margin: 1.2rem auto 0;
+    }
   }
 
   .box-container {
@@ -242,13 +247,13 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     z-index: 100000;
   }
 
-  @media (max-width: 549px) {
+  @media (max-width: 699px) {
     .box {
       width: 100%;
     }
   }
 
-  @media (min-width: 550px) and (max-width: 999px) {
+  @media (min-width: 700px) and (max-width: 999px) {
     .box {
       width: calc(50% - 20px);
     }

@@ -10,6 +10,7 @@ import { returnTokenValue } from "../utils/cookie";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Tooltip from '@mui/material/Tooltip';
+import { isMobile } from 'react-device-detect';
 
 const Header = () => {
   const navigate = useNavigate()
@@ -33,6 +34,11 @@ const Header = () => {
       secure: true
     })
   };
+
+  const DetectDevice = () => {
+    if (isMobile) alert('Administrator functions are only available on the desktop.')
+    else navigate(isAdmin ? '/admin/upload' : '/login')
+  }
 
   const logoutHandler = () => {
     return (
@@ -95,7 +101,7 @@ const Header = () => {
 
 
         <Tooltip title={'Admin'}>
-          <AdminLink onClick={() => navigate(isAdmin ? '/admin/upload' : '/login')}>
+          <AdminLink onClick={DetectDevice}>
             <FaUserCog/>
           </AdminLink>
         </Tooltip>
@@ -124,6 +130,10 @@ const HeaderTag = styled.header`
   font-size: 1.7rem;
   background: ${({theme}) => theme.headerBackground};
   z-index: 1000;
+
+  @media (max-width: 549px) {
+    height: 4rem;
+  }
 `
 
 const Logo = styled.div`
@@ -153,7 +163,7 @@ const Logo = styled.div`
 
     & div svg {
       font-size: 1.2rem;
-      margin-top: 1.5rem;
+      margin-top: 0.9rem;
     }
   }
 `
@@ -168,6 +178,10 @@ const AdminLink = styled.div`
   text-align: center;
   margin-right: 0.5rem;
   cursor: pointer;
+  
+  @media (max-width: 549px) {
+    margin-top: 1.2rem;
+  }
 `
 
 export default Header
