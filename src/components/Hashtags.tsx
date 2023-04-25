@@ -8,37 +8,18 @@ const Hashtags = (props: any) => {
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = useState<string>('')
 
-  const handleScroll = (scrollOffset: number) => {
-    if (scrollRef.current)
-      scrollRef.current.scrollLeft += scrollOffset;
-  }
-
   const searchHandler = (e: FormEvent) => {
     e.preventDefault()
     navigate(searchValue ? `/search/${searchValue}` : '/')
   }
 
+  const handleScroll = (scrollOffset: number) => {
+    if (scrollRef.current)
+      scrollRef.current.scrollLeft += scrollOffset;
+  }
+
   return (
     <TopContainer>
-      <HashtagContainer>
-        <ArrowButton style={{float: 'left', marginRight: '0.5rem'}} onClick={() => handleScroll(-200)}>
-          <MdOutlineKeyboardArrowLeft/>
-        </ArrowButton>
-        <Hashtag ref={scrollRef}>
-          <>
-            <Button style={{marginLeft: '0'}} onClick={() => navigate('/')}>All ({props.postCount})</Button>
-            {Object.values(props.hashtag).map((value: any, index: number) => (
-              <Button onClick={() => navigate(`/tag/${value.hashtag}`)} key={index}>
-                {value.hashtag} ({value.count})
-              </Button>
-            ))}
-          </>
-        </Hashtag>
-        <ArrowButton style={{float: 'right'}} onClick={() => handleScroll(200)}>
-          <MdOutlineKeyboardArrowRight/>
-        </ArrowButton>
-      </HashtagContainer>
-
       <form onSubmit={searchHandler}>
         <SearchBar>
           <Svg aria-hidden="true" viewBox="0 0 24 24" onClick={searchHandler}>
@@ -51,28 +32,40 @@ const Hashtags = (props: any) => {
                  onChange={(e) => setSearchValue(e.target.value)}/>
         </SearchBar>
       </form>
+
+      <HashtagContainer>
+        <MdOutlineKeyboardArrowLeft style={{float: 'left'}} className={'arrow-icon'} onClick={() => handleScroll(-150)}/>
+        <Hashtag ref={scrollRef}>
+          <>
+            <Button style={{marginLeft: '0'}} onClick={() => navigate('/')}>All ({props.postCount})</Button>
+            {Object.values(props.hashtag).map((value: any, index: number) => (
+              <Button onClick={() => navigate(`/tag/${value.hashtag}`)} key={index}>
+                {value.hashtag} ({value.count})
+              </Button>
+            ))}
+          </>
+        </Hashtag>
+        <MdOutlineKeyboardArrowRight style={{float: 'right'}} onClick={() => handleScroll(150)} className={'arrow-icon'}/>
+      </HashtagContainer>
     </TopContainer>
   )
 }
 
 const TopContainer = styled.div`
   width: 90%;
-  height: 2.5rem;
+  height: 5.6rem;
   margin: 0.2rem auto;
 `
 
 const SearchBar = styled.div`
   display: flex;
   float: right;
-  line-height: 2rem;
+  line-height: 2.15rem;
   align-items: center;
   position: relative;
   width: 25%;
   max-width: 25rem;
-
-  @media (max-width: 549px) {
-    width: 30%;
-  }
+  min-width: 10rem;
 `
 
 const Svg = styled.svg`
@@ -85,8 +78,9 @@ const Svg = styled.svg`
 
 const Input = styled.input`
   width: 100%;
-  height: 2rem;
-  line-height: 2rem;
+  height: 2.15rem;
+  line-height: 2.15rem;
+  margin-top: 0.1rem;
   padding: 0 1rem;
   padding-left: 2.5rem;
   border: 1px solid ${({theme}) => theme.hashtagColor};
@@ -107,28 +101,30 @@ const Input = styled.input`
 `
 
 const HashtagContainer = styled.div`
-  margin-top: 0.1rem;
+  margin-top: 0.8rem;
   float: left;
-  width: 70%;
+  width: 100%;
 `
 
 const Hashtag = styled.div`
   float: left;
-  width: calc(100% - 5rem);
-  height: 2rem;
-  overflow: hidden;
+  width: calc(99% - 3.5rem);
+  margin: auto;
+  height: 2.2rem;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   scroll-behavior: smooth;
   white-space: nowrap;
-
-  @media (max-width: 549px) {
-    padding-left: 0.8rem;
-    padding-right: 0.8rem;
-    overflow: auto;
+  
+  @media (max-width: 699px) {
+    width: 98.5%;
+    margin-left: 1.5%;
   }
 `
 
 const Button = styled.button`
-  height: 100%;
+  height: 2.15rem;
   width: auto;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -144,33 +140,6 @@ const Button = styled.button`
     background-color: ${({theme}) => theme.hashtagColor};
     color: ${({theme}) => theme.backgroundColor};
   }
-
-  @media (max-width: 549px) {
-    padding-left: 0.8rem;
-    padding-right: 0.8rem;
-  }
-`
-
-const ArrowButton = styled.button`
-  height: 100%;
-  width: 2rem;
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  transition: 0.15s all;
-  cursor: pointer;
-  color: ${({theme}) => theme.hashtagColor};
-
-  &:hover {
-    color: ${({theme}) => theme.secondColor};
-  }
-
-  @media (max-width: 549px) {
-    display: none;
-    width: 1.2rem;
-    font-size: 1.5rem;
-  }
-
 `
 
 export default Hashtags

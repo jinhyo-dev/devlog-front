@@ -246,6 +246,22 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     position: relative;
     z-index: 100000;
   }
+  
+  .arrow-icon {
+    margin-top: 0.2rem;
+    font-size: 1.7rem;
+    transition: 0.15s all;
+    cursor: pointer;
+    color: ${({theme}) => theme.hashtagColor};
+
+    &:hover {
+      color: ${({theme}) => theme.secondColor};
+    }
+
+    @media (max-width: 699px) {
+      display: none;
+    }
+  }
 
   @media (max-width: 699px) {
     .box {

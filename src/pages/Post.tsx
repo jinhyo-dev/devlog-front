@@ -16,7 +16,6 @@ const Post = () => {
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/api/post?id=${postId}`)
       .then((res: AxiosResponse) => {
-        console.log(res.data.result.content)
         setContent(res.data.result.content)
       })
       .then(() => setIsLoading(false))

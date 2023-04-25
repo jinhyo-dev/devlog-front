@@ -54,10 +54,11 @@ const AdminLogin = () => {
         setHeadingText('Password incorrect')
         handleSelectAll()
       })
-
-    setTimeout(() => {
-      setPasswordMismatch(false);
-    }, 450);
+      .then(() => {
+        setTimeout(() => {
+          setPasswordMismatch(false);
+        }, 350);
+      })
   }
 
   return (
