@@ -18,7 +18,7 @@ const Post = () => {
       .then((res: AxiosResponse) => {
         setContent(res.data.result.content)
       })
-      .then(() => setIsLoading(false))
+      .then(() => setTimeout(() => setIsLoading(false), 300))
   }, [postId])
 
   if (isLoading) {

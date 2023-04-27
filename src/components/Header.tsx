@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BsTerminalFill } from 'react-icons/bs'
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import { useCookies } from 'react-cookie'
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { FaUserCog } from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
 import { MdLogout } from 'react-icons/md'
@@ -121,6 +121,15 @@ const Header = () => {
   )
 }
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const HeaderTag = styled.header`
   position: sticky;
   top: 0;
@@ -128,7 +137,9 @@ const HeaderTag = styled.header`
   height: 5rem;
   font-family: 'D2Coding';
   font-size: 1.7rem;
-  background: ${({theme}) => theme.headerBackground};
+  background-color: ${({theme}) => theme.backgroundColor};
+  animation: ${fadeIn} 0.3s linear forwards;
+  transition: background-color 0.3s linear;
   z-index: 1000;
 
   @media (max-width: 549px) {
