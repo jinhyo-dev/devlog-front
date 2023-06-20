@@ -149,7 +149,7 @@ const UploadPost = () => {
       );
 
     setTagValue(extractArr.map((v: string, index: number) => index === extractArr.length - 1 ? `${v}` : `${v}, `).join(''))
-    !isFormSaved && setContent(`# ${title}\n<span id="hashtag" style="word-spacing: 0.5em;">${extractArr.map(v => `\`${v}\``).join(' ')}</span>\n> ${info}\n\n`)
+    !isFormSaved && setContent(`# ${title}\n<span id="hashtag" style="word-spacing: 0.5em;">${extractArr.map(v => `\`${v}\``).join(' ')}</span>\n> <span id="info">${info}</span>\n\n`)
     setTags(extractArr)
     setIsFormSaved(true)
   }
