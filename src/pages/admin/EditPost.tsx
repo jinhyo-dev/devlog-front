@@ -41,11 +41,11 @@ const EditPost = () => {
   }
 
   const extractInfo = () => {
-    const startIdx = content.indexOf('>') + 1; // '>' 다음 인덱스부터 시작
-    const endIdx = content.indexOf('\n', startIdx); // '\n' 이후의 인덱스 전까지 end
-    const text = content.slice(startIdx, endIdx).trim(); // '>' 다음부터 '\n' 전까지 문자열 추출 후 양쪽 공백 제거
+    const startIdx = content.indexOf('<span id="info">') + '<span id="info">'.length;
+    const endIdx = content.indexOf('</span>', startIdx);
+    const text = content.slice(startIdx, endIdx).trim();
     return text;
-  }
+  };
 
   const extractTitle = () => {
     const startIndex = content.indexOf("#");
@@ -58,13 +58,19 @@ const EditPost = () => {
   }
 
   const extractTag = () => {
+    const startIdx = content.indexOf('<span id="hashtag"');
+    const endIdx = content.indexOf('</span>', startIdx);
+    const tagContent = content.slice(startIdx, endIdx);
+
     const regex = /`([^`]+)`/g;
-    const matches = content.match(regex);
+    const matches = tagContent.match(regex);
     if (!matches) return [];
+
     const uniqueTags = Array.from(new Set(matches));
     const tags = uniqueTags.map((tag: any) => tag.replace(/`/g, "").trim());
+
     return tags;
-  }
+  };
 
   const extractFileNameFromUrl = (url: string): string | null => {
     const match = url.match(/\/([^/]+)$/);
