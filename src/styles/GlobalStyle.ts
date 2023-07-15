@@ -14,8 +14,18 @@ const fadeIn = keyframes`
   }
 `;
 
+const loadingGradientAnimation = keyframes`
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+`
+
 export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
-  
+
   body {
     margin: 0;
     background-color: ${({theme}) => theme.backgroundColor};
@@ -34,7 +44,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   .toggle-container .toggle-dark-theme {
     margin: 1.55rem auto 0;
     display: block;
-    
+
     @media (max-width: 549px) {
       margin: 1.2rem auto 0;
     }
@@ -80,6 +90,26 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
       width: 100%;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
+    }
+
+    & .image-loading {
+      width: 100%;
+      height: 100%;
+      background-color: ${({theme}) => theme.hashtagBackgroundColor};
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+
+      &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: ${({theme}) => theme.imageLoadingBackgroundColor};
+        animation: ${loadingGradientAnimation} 1.2s linear infinite;
+      }
     }
   }
 
@@ -246,7 +276,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     position: relative;
     z-index: 100000;
   }
-  
+
   .arrow-icon {
     margin-top: 0.2rem;
     font-size: 1.7rem;

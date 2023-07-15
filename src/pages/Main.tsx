@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../components/Header";
 import LinesEllipsis from 'react-lines-ellipsis'
 import Hashtags from "../components/Hashtags";
-import { useNavigate, useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import styled from "styled-components";
-import axios, { AxiosResponse } from "axios";
+import axios, {AxiosResponse} from "axios";
 import Loaders from "../components/Loaders";
 import NoneValue from "../components/NoneValue";
 import TextTruncate from 'react-text-truncate';
-import { MdEdit } from 'react-icons/md'
-import { RiDeleteBin6Fill } from 'react-icons/ri'
-import { returnTokenValue } from "../utils/cookie";
-import { confirmAlert } from "react-confirm-alert";
-import { BsTerminalFill } from "react-icons/bs";
-import { useCookies } from "react-cookie";
-import { toast, Toaster } from "react-hot-toast";
+import {MdEdit} from 'react-icons/md'
+import {RiDeleteBin6Fill} from 'react-icons/ri'
+import {returnTokenValue} from "../utils/cookie";
+import {confirmAlert} from "react-confirm-alert";
+import {BsTerminalFill} from "react-icons/bs";
+import {useCookies} from "react-cookie";
+import {toast, Toaster} from "react-hot-toast";
 import Tooltip from "@mui/material/Tooltip";
 
 const Main = () => {
@@ -63,6 +63,7 @@ const Main = () => {
             date: v.createdAt,
             hashtags: tags,
             views: v.view,
+            imgLoading: true
           })
         }
 
@@ -85,7 +86,7 @@ const Main = () => {
           setIsLoading(false)
         }, 50);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsError(true)
         setIsLoading(false)
       })
@@ -171,6 +172,10 @@ const Main = () => {
     )
   }
 
+  const handleImageLoading = (postId: number) => {
+    setPosts(posts.map((post: any) => post.id === postId ? {...post, imgLoading: false} : post));
+  }
+
   if (isLoading) return (
     <>
       <Header/>
@@ -185,8 +190,7 @@ const Main = () => {
         <NoneValue search={false}/>
       </>
     )
-  }
-  else if (posts.length > 0 && !isLoading) {
+  } else if (posts.length > 0 && !isLoading) {
     return (
       <>
         <Header/>
@@ -197,7 +201,11 @@ const Main = () => {
             <div className="box" key={index}>
               <div className={'image-container'} onClick={() => navigate(`/post/${value.id}`)}>
                 <img src={value.imgSrc}
+                     style={{display: value.imgLoading ? 'none' : ''}}
+                     onLoad={() => handleImageLoading(value.id)}
                      alt={'image'}/>
+
+                {value.imgLoading && <div className={'image-loading'}/>}
               </div>
 
               <div className={'text-container'}>
@@ -235,20 +243,20 @@ const Main = () => {
                     <span>{value.date}</span>
                     {
                       role === 'ROLE_ADMIN' &&
-											<ControlIcon>
+                        <ControlIcon>
 
-												<Tooltip title={'수정'}>
-													<ControlButton onClick={() => navigate(`admin/edit/post/${value.id}`)}>
-														<MdEdit className={'edit-icon'}/>
-													</ControlButton>
-												</Tooltip>
+                            <Tooltip title={'수정'}>
+                                <ControlButton onClick={() => navigate(`admin/edit/post/${value.id}`)}>
+                                    <MdEdit className={'edit-icon'}/>
+                                </ControlButton>
+                            </Tooltip>
 
-												<Tooltip title={'삭제'}>
-													<ControlButton onClick={() => deleteHandler(value.id)}>
-														<RiDeleteBin6Fill className={'delete-icon'}/>
-													</ControlButton>
-												</Tooltip>
-											</ControlIcon>
+                            <Tooltip title={'삭제'}>
+                                <ControlButton onClick={() => deleteHandler(value.id)}>
+                                    <RiDeleteBin6Fill className={'delete-icon'}/>
+                                </ControlButton>
+                            </Tooltip>
+                        </ControlIcon>
                     }
                     <span style={{float: "right"}}>조회수 {value.views}회</span>
                   </div>
@@ -277,7 +285,7 @@ const HashtagContainer = styled.div`
   height: 1.6rem;
 
   & button {
-    margin-left: 0.5rem;
+    margin -left: 0.5rem;
     font-size: 0.6rem;
     height: 100%;
     padding-left: 0.6rem;

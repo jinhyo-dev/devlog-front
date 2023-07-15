@@ -13,6 +13,7 @@ export interface CustomTheme extends DefaultTheme {
   hashtagBackgroundColor: string;
   secondColor: string;
   headerBackground: string;
+  imageLoadingBackgroundColor: string;
 }
 
 export const lightTheme: CustomTheme = {
@@ -27,7 +28,8 @@ export const lightTheme: CustomTheme = {
   hashtagBorder: '1px solid #ADD8E6',
   hashtagBackgroundColor: '#f1f1f1',
   secondColor: '#8ba6b2',
-  headerBackground: 'rgba(255,255,255,0.86)'
+  headerBackground: 'rgba(255,255,255,0.86)',
+  imageLoadingBackgroundColor: 'linear-gradient(110deg, rgba(227, 227, 227, 0) 0%, rgba(227, 227, 227, 0) 40%, rgb(231, 231, 231) 50%, rgba(227, 227, 227, 0) 60%, rgba(227, 227, 227, 0) 100%)'
 };
 
 export const darkTheme: CustomTheme = {
@@ -42,5 +44,6 @@ export const darkTheme: CustomTheme = {
   hashtagBorder: '1px solid #434463',
   hashtagBackgroundColor: '#0d1117',
   secondColor: '#aaa9bc',
-  headerBackground: 'rgba(13,17,23,0.86)'
+  headerBackground: 'rgba(13,17,23,0.86)',
+  imageLoadingBackgroundColor: 'linear-gradient(110deg, rgba(227, 227, 227, 0) 0%, rgba(227, 227, 227, 0) 40%, rgb(29, 31, 35) 50%, rgba(227, 227, 227, 0) 60%, rgba(227, 227, 227, 0) 100%)'
 };
