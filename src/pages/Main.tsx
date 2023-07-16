@@ -16,6 +16,8 @@ import {BsTerminalFill} from "react-icons/bs";
 import {useCookies} from "react-cookie";
 import {toast, Toaster} from "react-hot-toast";
 import Tooltip from "@mui/material/Tooltip";
+import {LazyLoadImage} from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Main = () => {
   const [posts, setPosts] = useState<any>([])
@@ -62,8 +64,7 @@ const Main = () => {
             info: v.info || '소개글 없음',
             date: v.createdAt,
             hashtags: tags,
-            views: v.view,
-            imgLoading: true
+            views: v.view
           })
         }
 
@@ -172,10 +173,6 @@ const Main = () => {
     )
   }
 
-  const handleImageLoading = (postId: number) => {
-    setPosts(posts.map((post: any) => post.id === postId ? {...post, imgLoading: false} : post));
-  }
-
   if (isLoading) return (
     <>
       <Header/>
@@ -200,10 +197,14 @@ const Main = () => {
           {Object.values(posts).map((value: any, index: number) => (
             <div className="box" key={index}>
               <div className={'image-container'} onClick={() => navigate(`/post/${value.id}`)}>
-                <img src={value.imgSrc}
-                     style={{display: value.imgLoading ? 'none' : ''}}
-                     onLoad={() => handleImageLoading(value.id)}
-                     alt={'image'}/>
+                <LazyLoadImage
+                  width={'100%'}
+                  height={'100%'}
+                  src={value.imgSrc}
+                  alt={'image'}
+                  effect="blur"
+                  className={'lazy-load-image'}
+                />
 
                 {value.imgLoading && <div className={'image-loading'}/>}
               </div>
@@ -285,7 +286,7 @@ const HashtagContainer = styled.div`
   height: 1.6rem;
 
   & button {
-    margin -left: 0.5rem;
+    margin-left: 0.5rem;
     font-size: 0.6rem;
     height: 100%;
     padding-left: 0.6rem;

@@ -84,10 +84,8 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 
-    & img {
+    & .lazy-load-image {
       object-fit: cover;
-      height: 100%;
-      width: 100%;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
     }
