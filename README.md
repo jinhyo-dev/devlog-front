@@ -21,8 +21,6 @@
 
 ## 프로젝트 레이아웃 소개
 
-![img.png](img.png)
-
-![img_2.png](img_2.png)
-
-![img_3.png](img_3.png)
+![img](https://github.com/jinhyo-dev/devlog-front/assets/86733620/66a4ba5b-b5f4-4123-8053-2f173ebffc13)
+![img_2](https://github.com/jinhyo-dev/devlog-front/assets/86733620/56c46124-57bd-4839-ac2b-7fad62843724)
+![img_3](https://github.com/jinhyo-dev/devlog-front/assets/86733620/243832fd-c7ea-4d08-83dd-97fb8741441f)
